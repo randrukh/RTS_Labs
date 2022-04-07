@@ -1,0 +1,29 @@
+from selenium import webdriver
+from  selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+
+driver = webdriver.Chrome(executable_path="C:\WebDriver\chromedriver.exe")
+# since on my computer exec path is written
+#to execute this code please insert the following into the chrom brackets above:
+#executable_path="c//ProgrammFiles/path_to_the_chromedriver.exe"
+driver.implicitly_wait(5)
+driver.wait = WebDriverWait(driver, 5)
+# driver.maximize_window()
+
+GOOGLE_SEARCHBAR = (By.NAME, 'q')
+RTS_LABS_RESULT = (By.XPATH, "//h3 [contains( text(), 'RTS Labs')]")
+RTC_LOGO = (By.ID, "logo-svg")
+BASE_URL = 'https://www.google.com'
+
+driver.get(BASE_URL)
+
+search_bar = driver.find_element(*GOOGLE_SEARCHBAR)
+search_bar.clear()
+search_bar.send_keys('RTS Labs')
+search_bar.send_keys(Keys.ENTER)
+rts_labs_result = driver.wait.until(EC.element_to_be_clickable(RTS_LABS_RESULT)).click()
+driver.wait.until(EC.visibility_of_element_located(RTC_LOGO))
+driver.quit()
